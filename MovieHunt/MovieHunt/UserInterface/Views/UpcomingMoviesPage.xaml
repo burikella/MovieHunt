@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:MovieHunt.UserInterface.Controls"
+             xmlns:ext="clr-namespace:MovieHunt.UserInterface.MarkupExtensions"
+             x:Class="MovieHunt.UserInterface.Views.UpcomingMoviesPage"
+             Title="Upcoming Movies">
+
+    <controls:InfiniteListView
+        ItemsSource="{Binding Movies}"
+        IsPullToRefreshEnabled="True"
+        RefreshCommand="{ext:Command Refresh}"
+        IsRefreshing="{Binding IsRefreshing}"
+        LoadMoreCommand="{ext:Command LoadMore}">
+
+        <controls:InfiniteListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Label Text="{Binding Title}" />
+                </ViewCell>
+            </DataTemplate>
+        </controls:InfiniteListView.ItemTemplate>
+
+    </controls:InfiniteListView>
+
+</ContentPage>
