@@ -17,18 +17,26 @@ namespace MovieHunt
 {
     public partial class App : PrismApplication
     {
+        private Lazy<AppSettings> _settings;
+
         /* 
          * The Xamarin Forms XAML Previewer in Visual Studio uses System.Activator.CreateInstance.
          * This imposes a limitation in which the App class must have a default constructor. 
          * App(IPlatformInitializer initializer = null) cannot be handled by the Activator.
          */
-        public App() : this(null) { }
+        public App() : this(null)
+        {
+        }
 
-        public App(IPlatformInitializer initializer) : base(initializer) { }
+        public App(IPlatformInitializer initializer) : base(initializer)
+        {
+        }
 
         protected override async void OnInitialized()
         {
             InitializeComponent();
+
+            _settings = new Lazy<AppSettings>(CreateSettings);
 
             try
             {
@@ -39,29 +47,29 @@ namespace MovieHunt
                 throw;
             }
         }
-        
+
+        private AppSettings CreateSettings()
+        {
+            return new AppSettings
+            {
+                ApiKey = (string) Current.Resources["ApiKey"],
+                BaseUri = (string) Current.Resources["BaseUri"],
+
+                ApiRetryCount = (int) Current.Resources["RetryCount"],
+                ApiRetryDelay = TimeSpan.FromMilliseconds((int) Current.Resources["RetryDelayMilliseconds"])
+            };
+        }
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            var settings = new AppSettings
-            {
-                ApplicationName = "MovieHunt",
-
-                ApiKey = "1f54bd990f1cdfb230adb312546d765d",
-                BaseUri = "https://api.themoviedb.org/3",
-
-                ApiRetryCount = 3,
-                ApiRetryDelay = TimeSpan.FromMilliseconds(250)
-            };
-
-
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<UpcomingMoviesPage>();
             containerRegistry.RegisterForNavigation<MovieDetailsPage>();
 
             var container = containerRegistry.GetContainer();
 
-            container.UseInstance<IApiSettings>(settings);
-            container.UseInstance<IRetrySettings>(settings);
+            container.RegisterDelegate(r => (IApiSettings) _settings.Value);
+            container.RegisterDelegate(r => (IRetrySettings) _settings.Value);
 
             container.Register<UpcomingMoviesPageViewModel>();
             container.Register<IMovieDbApiFactory, MovieDbApiFactory>(Reuse.Singleton);
@@ -69,7 +77,6 @@ namespace MovieHunt
             container.Register<IMovieDbApi, RetryingMovieDbApi>();
 
             containerRegistry.RegisterSingleton<IMovieDbFacade, MovieDbFacade>();
-            
         }
     }
 }

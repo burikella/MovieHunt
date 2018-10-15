@@ -11,7 +11,5 @@ namespace MovieHunt.ApplicationSettings
         public string ApiKey { get; set; }
 
         public string BaseUri { get; set; }
-
-        public string ApplicationName { get; set; }
     }
 }
