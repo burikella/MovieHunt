@@ -2,6 +2,8 @@
 
 Just sample Xamarin app targeting The Movie Database API.
 
+**NOTE:** Only Android project was tested.
+
 ## Build and run
 
 There no special instruction for building it. But you need to specify your API_KEY to access api.themoviedb.org. This can be done in App.xaml file.
