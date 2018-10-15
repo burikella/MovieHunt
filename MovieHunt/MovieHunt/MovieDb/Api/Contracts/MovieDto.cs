@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace MovieHunt.MovieDb.Api.Contracts
@@ -22,6 +23,9 @@ namespace MovieHunt.MovieDb.Api.Contracts
         public string BackdropPath { get; set; }
 
         [JsonProperty("release_date")]
-        public string ReleaseDate { get; set; }
+        [JsonConverter(typeof(IsoDateTimeByFormatConverter), "yyyy-MM-dd")]
+        public DateTime ReleaseDate { get; set; }
+
+        public string Overview { get; set; }
     }
 }

@@ -1,15 +1,18 @@
 ﻿using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 
 namespace MovieHunt.MovieDb
 {
     public class ViewModel : BindableBase, INavigationAware, IDestructible
     {
-        protected INavigationService NavigationService { get; private set; }
-        
-        public ViewModel(INavigationService navigationService)
+        protected INavigationService NavigationService { get; }
+        protected IPageDialogService PagePageDialogService { get; }
+
+        public ViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
         {
             NavigationService = navigationService;
+            PagePageDialogService = pageDialogService;
         }
 
         public virtual void OnNavigatedFrom(NavigationParameters parameters)

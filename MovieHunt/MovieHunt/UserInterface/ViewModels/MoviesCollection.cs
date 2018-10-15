@@ -31,7 +31,7 @@ namespace MovieHunt.UserInterface.ViewModels
             await _semaphore.WaitAsync().ConfigureAwait(false);
             try
             {
-                action?.Invoke();
+                await Task.Run(action).ConfigureAwait(false);
             }
             finally
             {

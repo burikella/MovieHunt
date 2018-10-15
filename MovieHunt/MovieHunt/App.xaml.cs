@@ -47,14 +47,13 @@ namespace MovieHunt
             {
                 ApplicationName = "MovieHunt",
 
-                ApiKey = "<KEY SHOULD BE HERE>",
+                ApiKey = "1f54bd990f1cdfb230adb312546d765d",
                 BaseUri = "https://api.themoviedb.org/3",
 
                 ApiRetryCount = 3,
                 ApiRetryDelay = TimeSpan.FromMilliseconds(250)
             };
 
-            BlobCache.ApplicationName = settings.ApplicationName;
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<UpcomingMoviesPage>();
@@ -66,9 +65,9 @@ namespace MovieHunt
             container.UseInstance<IRetrySettings>(settings);
 
             container.Register<UpcomingMoviesPageViewModel>();
-            container.Register<IMovieDbApi, MovieDbApi>();
-            container.RegisterInstance<IBlobCache>(BlobCache.UserAccount);
-            container.Register<IMovieDbApi, RetryingMovieDbApi>(setup: Setup.Decorator);
+            container.Register<IMovieDbApiFactory, MovieDbApiFactory>(Reuse.Singleton);
+            container.Register<IMovieDtoToMovieInfoMapperFactory, MovieDtoToMovieInfoMapperFactory>(Reuse.Singleton);
+            container.Register<IMovieDbApi, RetryingMovieDbApi>();
 
             containerRegistry.RegisterSingleton<IMovieDbFacade, MovieDbFacade>();
             

@@ -11,7 +11,8 @@
         IsPullToRefreshEnabled="True"
         RefreshCommand="{ext:Command Refresh}"
         IsRefreshing="{Binding IsRefreshing}"
-        LoadMoreCommand="{ext:Command LoadMore}">
+        LoadMoreCommand="{ext:Command LoadMore}"
+        RowHeight="80">
 
         <controls:InfiniteListView.ItemTemplate>
             <DataTemplate>
@@ -20,27 +21,33 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
-                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         
                         <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         
+                        <Image Grid.RowSpan="3"
+                               Aspect="AspectFill"
+                               WidthRequest="50"
+                               Source="{Binding PreviewImage}" />
+                        
                         <Label Grid.Column="1"
-                               Grid.ColumnSpan="2"
                                Grid.Row="0"
+                               FontSize="Small"
                                Text="{Binding Title}"/>
 
                         <Label Grid.Column="1"
-                               Grid.Row="2"
-                               Text="{Binding Genres, Converter=}"/>
+                               Grid.Row="1"
+                               FontSize="Micro"
+                               Text="{Binding Genres, Converter={StaticResource CollectionToSeparatedStringConverter}}"/>
 
-                        <Label Grid.Column="2"
+                        <Label Grid.Column="1"
                                Grid.Row="2"
-                               Text="{Binding ReleaseDate, StringFormat={}{}}"/>
+                               FontSize="Micro"
+                               Text="{Binding ReleaseDate, Converter={StaticResource DateTimeToFormattedStringConverter}, ConverterParameter='D'}"/>
                         
                     </Grid>
                 </ViewCell>

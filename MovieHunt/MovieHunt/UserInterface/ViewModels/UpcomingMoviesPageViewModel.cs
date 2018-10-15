@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MovieHunt.MovieDb;
 using MovieHunt.Utility;
 using Prism.Navigation;
+using Prism.Services;
 
 namespace MovieHunt.UserInterface.ViewModels
 {
@@ -16,8 +16,9 @@ namespace MovieHunt.UserInterface.ViewModels
 
         public UpcomingMoviesPageViewModel(
                 INavigationService navigationService,
+                IPageDialogService pageDialogService,
                 IMovieDbFacade movieDbFacade)
-            : base(navigationService)
+            : base(navigationService, pageDialogService)
         {
             _movies = new MoviesCollection(movieDbFacade);
             _operationsCounter = new OperationsCounter(state => IsRefreshing = state);

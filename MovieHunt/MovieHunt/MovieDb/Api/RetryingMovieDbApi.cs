@@ -14,15 +14,16 @@ namespace MovieHunt.MovieDb.Api
         private readonly TimeSpan _delay;
         private readonly IMovieDbApi _origin;
 
-        public RetryingMovieDbApi(IRetrySettings settings, IMovieDbApi origin)
+        public RetryingMovieDbApi(IRetrySettings settings, IMovieDbApiFactory originFactory)
         {
             if (settings == null)
             {
                 throw new ArgumentNullException(nameof(settings));
             }
+
             _retryCount = settings.ApiRetryCount;
             _delay = settings.ApiRetryDelay;
-            _origin = origin ?? throw new ArgumentNullException(nameof(origin));
+            _origin = originFactory?.Create() ?? throw new ArgumentNullException(nameof(originFactory));
         }
 
         public Task<MoviesPageDto> GetUpcomingMovies(int page)
@@ -33,6 +34,11 @@ namespace MovieHunt.MovieDb.Api
         public Task<GenresDto> GetMovieGenres()
         {
             return ExecuteWithRetry(_origin.GetMovieGenres);
+        }
+
+        public Task<ConfigurationDto> GetConfiguration()
+        {
+            return ExecuteWithRetry(_origin.GetConfiguration);
         }
 
         private Task<T> ExecuteWithRetry<T>(Func<Task<T>> func)

@@ -2,10 +2,15 @@
 <prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.DryIoc;assembly=Prism.DryIoc.Forms"
+             xmlns:converters="clr-namespace:MovieHunt.UserInterface.Converters;assembly=MovieHunt"
              x:Class="MovieHunt.App">
 	<Application.Resources>
 
 		<!-- Application resource dictionary -->
+        <ResourceDictionary>
+            <converters:CollectionToSeparatedStringConverter x:Key="CollectionToSeparatedStringConverter" />
+            <converters:DateTimeToFormattedStringConverter x:Key="DateTimeToFormattedStringConverter" />
+        </ResourceDictionary>
 
-	</Application.Resources>
+    </Application.Resources>
 </prism:PrismApplication>

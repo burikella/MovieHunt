@@ -10,5 +10,8 @@ namespace MovieHunt.MovieDb.Api.Contracts
 
         [Get("/genre/movie/list")]
         Task<GenresDto> GetMovieGenres();
+
+        [Get("/configuration")]
+        Task<ConfigurationDto> GetConfiguration();
     }
 }
