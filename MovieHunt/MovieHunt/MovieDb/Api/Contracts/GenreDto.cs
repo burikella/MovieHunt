@@ -1,4 +1,4 @@
-﻿namespace MovieHunt.MovieDb.Contract
+﻿namespace MovieHunt.MovieDb.Api.Contracts
 {
     public class GenreDto
     {

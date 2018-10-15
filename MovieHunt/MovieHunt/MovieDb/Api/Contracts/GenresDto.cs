@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using MovieHunt.MovieDb.Contract;
 
 namespace MovieHunt.MovieDb.Api.Contracts
 {

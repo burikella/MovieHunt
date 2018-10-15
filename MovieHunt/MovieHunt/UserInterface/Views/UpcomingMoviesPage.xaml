@@ -16,7 +16,33 @@
         <controls:InfiniteListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
-                    <Label Text="{Binding Title}" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Label Grid.Column="1"
+                               Grid.ColumnSpan="2"
+                               Grid.Row="0"
+                               Text="{Binding Title}"/>
+
+                        <Label Grid.Column="1"
+                               Grid.Row="2"
+                               Text="{Binding Genres, Converter=}"/>
+
+                        <Label Grid.Column="2"
+                               Grid.Row="2"
+                               Text="{Binding ReleaseDate, StringFormat={}{}}"/>
+                        
+                    </Grid>
                 </ViewCell>
             </DataTemplate>
         </controls:InfiniteListView.ItemTemplate>
