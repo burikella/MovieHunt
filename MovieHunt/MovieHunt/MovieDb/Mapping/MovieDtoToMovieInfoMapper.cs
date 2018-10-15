@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using MovieHunt.MovieDb.Api.Contracts;
-using MovieHunt.UserInterface.ViewModels;
+using MovieHunt.MovieDb.Models;
 
-namespace MovieHunt.MovieDb
+namespace MovieHunt.MovieDb.Mapping
 {
     internal class MovieDtoToMovieInfoMapper : IMovieDtoToMovieInfoMapper
     {

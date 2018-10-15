@@ -12,6 +12,7 @@
         RefreshCommand="{ext:Command Refresh}"
         IsRefreshing="{Binding IsRefreshing}"
         LoadMoreCommand="{ext:Command LoadMore}"
+        ItemSelectedCommand="{ext:Command OpenDetails}"
         RowHeight="80">
 
         <controls:InfiniteListView.ItemTemplate>
@@ -33,21 +34,23 @@
                                Aspect="AspectFill"
                                WidthRequest="50"
                                Source="{Binding PreviewImage}" />
-                        
-                        <Label Grid.Column="1"
-                               Grid.Row="0"
-                               FontSize="Small"
-                               Text="{Binding Title}"/>
 
                         <Label Grid.Column="1"
-                               Grid.Row="1"
+                               Grid.Row="0"
                                FontSize="Micro"
-                               Text="{Binding Genres, Converter={StaticResource CollectionToSeparatedStringConverter}}"/>
+                               TextColor="Black"
+                               Text="{Binding ReleaseDate, Converter={StaticResource DateTimeToFormattedStringConverter}, ConverterParameter='D'}"/>
+                        
+                        <Label Grid.Column="1"
+                               Grid.Row="1"
+                               FontSize="Small"
+                               TextColor="Black"
+                               Text="{Binding Title}"/>
 
                         <Label Grid.Column="1"
                                Grid.Row="2"
                                FontSize="Micro"
-                               Text="{Binding ReleaseDate, Converter={StaticResource DateTimeToFormattedStringConverter}, ConverterParameter='D'}"/>
+                               Text="{Binding Genres, Converter={StaticResource CollectionToSeparatedStringConverter}}"/>
                         
                     </Grid>
                 </ViewCell>

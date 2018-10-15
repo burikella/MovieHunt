@@ -1,10 +1,10 @@
 ﻿using System;
-using Akavache;
 using DryIoc;
 using MovieHunt.ApplicationSettings;
 using MovieHunt.MovieDb;
 using MovieHunt.MovieDb.Api;
 using MovieHunt.MovieDb.Api.Contracts;
+using MovieHunt.MovieDb.Mapping;
 using MovieHunt.UserInterface.ViewModels;
 using MovieHunt.UserInterface.Views;
 using Prism;
@@ -13,7 +13,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Prism.DryIoc;
 
-[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace MovieHunt
 {
     public partial class App : PrismApplication

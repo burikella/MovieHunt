@@ -9,24 +9,51 @@ namespace MovieHunt.UserInterface.Controls
         public static readonly BindableProperty LoadMoreCommandProperty =
             BindableProperty.Create(nameof(LoadMoreCommand), typeof(ICommand), typeof(InfiniteListView));
 
+        public static readonly BindableProperty ItemSelectedCommandProperty =
+            BindableProperty.Create(nameof(ItemSelectedCommand), typeof(ICommand), typeof(InfiniteListView));
+
         public ICommand LoadMoreCommand
         {
             get => (ICommand)GetValue(LoadMoreCommandProperty);
             set => SetValue(LoadMoreCommandProperty, value);
         }
 
-        public InfiniteListView()
+        public ICommand ItemSelectedCommand
         {
-            ItemAppearing += InfiniteListView_ItemAppearing;
+            get => (ICommand)GetValue(ItemSelectedCommandProperty);
+            set => SetValue(ItemSelectedCommandProperty, value);
         }
 
-        private void InfiniteListView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
+        public InfiniteListView()
+        {
+            ItemAppearing += HandleItemAppearing;
+            ItemSelected += HandleItemSelection;
+            ItemTapped += OnItemTapped;
+        }
+
+        private void HandleItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
             if (ItemsSource is IList items && e.Item == items[items.Count - 1])
             {
                 if (LoadMoreCommand != null && LoadMoreCommand.CanExecute(null))
                 {
                     LoadMoreCommand.Execute(null);
+                }
+            }
+        }
+
+        private void OnItemTapped(object sender, ItemTappedEventArgs itemTappedEventArgs)
+        {
+            ItemSelectedCommand?.Execute(itemTappedEventArgs.Item);
+        }
+
+        private void HandleItemSelection(object sender, SelectedItemChangedEventArgs selectedItemChangedEventArgs)
+        {
+            if (sender is ListView listView)
+            {
+                if (listView.SelectedItem != null || selectedItemChangedEventArgs.SelectedItem != null)
+                {
+                    listView.SelectedItem = null;
                 }
             }
         }

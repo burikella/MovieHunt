@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MovieHunt.MovieDb.Models;
 using MovieHunt.UserInterface.ViewModels;
 
 namespace MovieHunt.MovieDb

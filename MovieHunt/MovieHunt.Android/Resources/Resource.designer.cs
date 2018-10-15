@@ -27,7 +27,6 @@ namespace MovieHunt.Droid
 		public static void UpdateIdValues()
 		{
 			global::ModernHttpClient.Resource.String.library_name = global::MovieHunt.Droid.Resource.String.library_name;
-			global::Splat.Resource.String.library_name = global::MovieHunt.Droid.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::MovieHunt.Droid.Resource.Attribute.actionBarSize;
 		}
 		

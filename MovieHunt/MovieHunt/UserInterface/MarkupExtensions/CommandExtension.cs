@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MovieHunt.Extensions;
+using MovieHunt.Utility;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

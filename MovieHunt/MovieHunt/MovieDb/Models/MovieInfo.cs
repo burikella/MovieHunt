@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MovieHunt.UserInterface.ViewModels
+namespace MovieHunt.MovieDb.Models
 {
     public class MovieInfo
     {

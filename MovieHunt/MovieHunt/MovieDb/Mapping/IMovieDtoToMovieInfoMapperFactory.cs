@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MovieHunt.MovieDb
+namespace MovieHunt.MovieDb.Mapping
 {
     internal interface IMovieDtoToMovieInfoMapperFactory
     {

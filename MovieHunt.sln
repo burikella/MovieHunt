@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieHunt", "MovieHunt\MovieHunt\MovieHunt.csproj", "{9504A6F0-FF59-4480-83CA-8A91844A0A5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieHunt", "MovieHunt\MovieHunt\MovieHunt.csproj", "{9504A6F0-FF59-4480-83CA-8A91844A0A5E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieHunt.Android", "MovieHunt\MovieHunt.Android\MovieHunt.Android.csproj", "{CCDE14C6-636B-4C7B-ADD9-9940430E7775}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieHunt.iOS", "MovieHunt\MovieHunt.iOS\MovieHunt.iOS.csproj", "{0D25B64E-B969-4E6A-9BB0-A78CCAC92EA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D47F9839-B659-4641-BFD1-18D4D3842666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieHunt.Tests", "MovieHunt.Tests\MovieHunt.Tests.csproj", "{464003A2-64D1-4F69-865C-703A06F84D50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,9 +109,36 @@ Global
 		{0D25B64E-B969-4E6A-9BB0-A78CCAC92EA5}.Release|iPhone.Build.0 = Release|iPhone
 		{0D25B64E-B969-4E6A-9BB0-A78CCAC92EA5}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{0D25B64E-B969-4E6A-9BB0-A78CCAC92EA5}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Ad-Hoc|Any CPU.ActiveCfg = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Ad-Hoc|Any CPU.Build.0 = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Ad-Hoc|iPhone.ActiveCfg = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Ad-Hoc|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Ad-Hoc|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.AppStore|Any CPU.ActiveCfg = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.AppStore|Any CPU.Build.0 = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.AppStore|iPhone.Build.0 = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.AppStore|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.AppStore|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Release|iPhone.Build.0 = Release|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{464003A2-64D1-4F69-865C-703A06F84D50}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{464003A2-64D1-4F69-865C-703A06F84D50} = {D47F9839-B659-4641-BFD1-18D4D3842666}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2926D75A-79BF-4AEB-9ED0-5973126CC6B1}

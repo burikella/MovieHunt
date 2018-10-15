@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MovieHunt.MovieDb;
+using MovieHunt.MovieDb.Models;
+using MovieHunt.UserInterface.Views;
 using MovieHunt.Utility;
 using Prism.Navigation;
 using Prism.Services;
@@ -15,9 +17,9 @@ namespace MovieHunt.UserInterface.ViewModels
         private bool _isRefreshing;
 
         public UpcomingMoviesPageViewModel(
-                INavigationService navigationService,
-                IPageDialogService pageDialogService,
-                IMovieDbFacade movieDbFacade)
+            INavigationService navigationService,
+            IPageDialogService pageDialogService,
+            IMovieDbFacade movieDbFacade)
             : base(navigationService, pageDialogService)
         {
             _movies = new MoviesCollection(movieDbFacade);
@@ -45,6 +47,23 @@ namespace MovieHunt.UserInterface.ViewModels
             }
         }
 
-        public Task LoadMore() => _movies.LoadNextPage();
+        public Task OpenDetails(MovieInfo movie)
+        {
+            var parameters = new NavigationParameters
+            {
+                {MovieDetailsPage.MovieInfoKey, movie}
+            };
+            return NavigationService.NavigateAsync(nameof(MovieDetailsPage), parameters);
+        }
+
+        public Task LoadMore()
+        {
+            if (!_movies.IsCompletelyLoaded)
+            {
+                return _movies.LoadNextPage();
+            }
+
+            return Task.CompletedTask;
+        }
     }
 }

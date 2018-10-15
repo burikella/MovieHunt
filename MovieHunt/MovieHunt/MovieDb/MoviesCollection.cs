@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
-using MovieHunt.MovieDb;
+using MovieHunt.MovieDb.Models;
 
-namespace MovieHunt.UserInterface.ViewModels
+namespace MovieHunt.MovieDb
 {
-    internal class MoviesCollection : ObservableCollection<MovieInfo>, INotifyCollectionChanged
+    /// <summary>
+    /// This class incapsulates paginated collection loading.
+    /// </summary>
+    internal class MoviesCollection : ObservableCollection<MovieInfo>
     {
         private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
         private readonly IMovieDbFacade _movieDb;
@@ -17,7 +19,7 @@ namespace MovieHunt.UserInterface.ViewModels
 
         public MoviesCollection(IMovieDbFacade movieDb)
         {
-            _movieDb = movieDb;
+            _movieDb = movieDb ?? throw new ArgumentNullException(nameof(movieDb));
         }
 
         public Task Reset() => RunSunchronized(ResetInternal);

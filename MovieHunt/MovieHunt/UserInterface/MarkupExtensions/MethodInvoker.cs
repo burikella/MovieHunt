@@ -9,9 +9,9 @@ namespace MovieHunt.UserInterface.MarkupExtensions
 {
     public class MethodInvoker
     {
-        private object lastTarget;
-        private DateTime lastCallTime;
-        private MethodInfoWrapper actionMethod;
+        private object _lastTarget;
+        private DateTime _lastCallTime;
+        private MethodInfoWrapper _actionMethod;
 
         public MethodInvoker(string methodName, TimeSpan minimumInterval)
         {
@@ -32,19 +32,14 @@ namespace MovieHunt.UserInterface.MarkupExtensions
         public async Task InvokeOnObject(object target, params object[] arguments)
         {
             var now = DateTime.Now;
-            if (now - lastCallTime < MinimumTimeInterval)
+            if (now - _lastCallTime < MinimumTimeInterval)
             {
                 return;
             }
 
-            lastCallTime = now;
+            _lastCallTime = now;
 
             ActualizeMethodInfo(target);
-
-            if (!actionMethod.MethodInfo.GetParameters().Any() && arguments.All(a => a == null))
-            {
-                arguments = Enumerable.Empty<object>().ToArray();
-            }
 
             await InvokeMethod(arguments ?? Enumerable.Empty<object>());
         }
@@ -53,52 +48,56 @@ namespace MovieHunt.UserInterface.MarkupExtensions
         {
             if (newContext == null)
             {
-                throw new Exception("CommandExtension: binding context is null.");
+                throw new ArgumentNullException(
+                    nameof(newContext),
+                    @"CommandExtension: binding context is null.");
             }
 
-            if (!ReferenceEquals(lastTarget, newContext))
+            if (!ReferenceEquals(_lastTarget, newContext))
             {
-                lastTarget = newContext;
+                _lastTarget = newContext;
                 GetMethodInfo();
             }
         }
 
         private async Task InvokeMethod(IEnumerable<object> arguments)
         {
-            if (actionMethod.IsTask)
+            if (_actionMethod.IsTask)
             {
-                await actionMethod.InvokeAsync(arguments.ToArray()).ConfigureAwait(false);
+                await _actionMethod.InvokeAsync(arguments.ToArray()).ConfigureAwait(false);
             }
             else
             {
-                actionMethod.Invoke(arguments.ToArray());
+                _actionMethod.Invoke(arguments.ToArray());
             }
         }
 
         private void GetMethodInfo(Type type = null)
         {
-            var typeInfo = (type ?? lastTarget.GetType()).GetTypeInfo();
+            var typeInfo = (type ?? _lastTarget.GetType()).GetTypeInfo();
             var methodInfo = typeInfo.DeclaredMethods.SingleOrDefault(m => m.Name.Equals(MethodName) && m.IsPublic);
+
             if (methodInfo == null)
             {
                 if (typeInfo.BaseType == typeof(object))
                 {
-                    string message = $"CommandExtension: can't find method {MethodName} on {lastTarget} binding context.";
-                    throw new Exception(message);
+                    string message = $"CommandExtension: can't find method {MethodName} on {_lastTarget} binding context.";
+                    throw new ArgumentException(message);
                 }
                 GetMethodInfo(typeInfo.BaseType);
                 return;
             }
-            actionMethod = new MethodInfoWrapper(methodInfo, lastTarget);
+
+            _actionMethod = new MethodInfoWrapper(methodInfo, _lastTarget);
         }
 
         private class MethodInfoWrapper
         {
-            private readonly object owner;
+            private readonly object _owner;
 
             public MethodInfoWrapper(MethodInfo methodInfo, object owner)
             {
-                this.owner = owner;
+                this._owner = owner;
                 MethodInfo = methodInfo;
                 IsTask = MethodInfo.ReturnType.IsAssignableTo(typeof(Task));
             }
@@ -109,12 +108,12 @@ namespace MovieHunt.UserInterface.MarkupExtensions
 
             public void Invoke(object[] arguments)
             {
-                MethodInfo.Invoke(owner, arguments);
+                MethodInfo.Invoke(_owner, arguments);
             }
 
             public Task InvokeAsync(object[] arguments)
             {
-                return (Task)MethodInfo.Invoke(owner, arguments);
+                return (Task)MethodInfo.Invoke(_owner, arguments);
             }
         }
     }

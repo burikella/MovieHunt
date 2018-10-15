@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MovieHunt.MovieDb.Api.Contracts;
+using MovieHunt.MovieDb.Mapping;
+using MovieHunt.MovieDb.Models;
 using MovieHunt.UserInterface.ViewModels;
+using MovieHunt.Utility;
 
 namespace MovieHunt.MovieDb
 {
@@ -30,7 +33,7 @@ namespace MovieHunt.MovieDb
                 genres,
                 configuration.Images.SecureBaseUrl,
                 configuration.Images.PosterSizes.First(),
-                configuration.Images.BackdropSizes.First());
+                configuration.Images.BackdropSizes.Last());
         }
 
         public async Task<MoviesLoadingResult> LoadMovies(int page)
