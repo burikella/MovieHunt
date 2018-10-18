@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Plugin.Connectivity.Abstractions;
 
 namespace MovieHunt.MovieDb.Api
 {
@@ -12,19 +13,30 @@ namespace MovieHunt.MovieDb.Api
     /// </summary>
     internal class NetworkProblemHttpClientHandler : DelegatingHandler
     {
-        public NetworkProblemHttpClientHandler(HttpMessageHandler innerHandler) : base(innerHandler)
+        private readonly IConnectivity _connectivity;
+
+        public NetworkProblemHttpClientHandler(
+            IConnectivity connectivity,
+            HttpMessageHandler innerHandler)
+            : base(innerHandler)
         {
+            _connectivity = connectivity ?? throw new ArgumentNullException(nameof(connectivity));
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            if (!_connectivity.IsConnected)
+            {
+                throw new NetworkProblemException(false);
+            }
+
             try
             {
                 return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception exception) when (IsBadNetworkException(exception))
             {
-                throw new NetworkProblemException(@"Web request was failed due network issues.", exception);
+                throw new NetworkProblemException(_connectivity.IsConnected, exception);
             }
         }
 

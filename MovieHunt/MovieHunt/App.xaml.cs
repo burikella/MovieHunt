@@ -7,6 +7,8 @@ using MovieHunt.MovieDb.Api.Contracts;
 using MovieHunt.MovieDb.Mapping;
 using MovieHunt.UserInterface.ViewModels;
 using MovieHunt.UserInterface.Views;
+using Plugin.Connectivity;
+using Plugin.Connectivity.Abstractions;
 using Prism;
 using Prism.Ioc;
 using Xamarin.Forms;
@@ -35,7 +37,7 @@ namespace MovieHunt
         {
             InitializeComponent();
 
-            _settings = new Lazy<AppSettings>(CreateSettings);
+            _settings = new Lazy<AppSettings>(ReadSettings);
 
             try
             {
@@ -45,18 +47,6 @@ namespace MovieHunt
             {
                 throw;
             }
-        }
-
-        private AppSettings CreateSettings()
-        {
-            return new AppSettings
-            {
-                ApiKey = (string) Current.Resources["ApiKey"],
-                BaseUri = (string) Current.Resources["BaseUri"],
-
-                ApiRetryCount = (int) Current.Resources["RetryCount"],
-                ApiRetryDelay = TimeSpan.FromMilliseconds((int) Current.Resources["RetryDelayMilliseconds"])
-            };
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -70,12 +60,26 @@ namespace MovieHunt
             container.RegisterDelegate(r => (IApiSettings) _settings.Value);
             container.RegisterDelegate(r => (IRetrySettings) _settings.Value);
 
+            container.UseInstance(CrossConnectivity.Current);
+
             container.Register<UpcomingMoviesPageViewModel>();
             container.Register<IMovieDbApiFactory, MovieDbApiFactory>(Reuse.Singleton);
             container.Register<IMovieDtoToMovieInfoMapperFactory, MovieDtoToMovieInfoMapperFactory>(Reuse.Singleton);
             container.Register<IMovieDbApi, RetryingMovieDbApi>();
 
             containerRegistry.RegisterSingleton<IMovieDbFacade, MovieDbFacade>();
+        }
+
+        private static AppSettings ReadSettings()
+        {
+            return new AppSettings
+            {
+                ApiKey = (string)Current.Resources["ApiKey"],
+                BaseUri = (string)Current.Resources["BaseUri"],
+
+                ApiRetryCount = (int)Current.Resources["RetryCount"],
+                ApiRetryDelay = TimeSpan.FromMilliseconds((int)Current.Resources["RetryDelayMilliseconds"])
+            };
         }
     }
 }

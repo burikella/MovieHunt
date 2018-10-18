@@ -42,7 +42,7 @@ namespace MovieHunt.MovieDb.Api
         private Task<T> ExecuteWithRetry<T>(Func<Task<T>> func)
         {
             return Policy
-                .Handle<NetworkProblemException>()
+                .Handle<NetworkProblemException>(e => e.ConnectionAvailable)
                 .WaitAndRetryAsync(_retryCount, _ => _delay)
                 .ExecuteAsync(func);
         }

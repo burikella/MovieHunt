@@ -1,25 +1,23 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace MovieHunt.MovieDb.Api
 {
     [Serializable]
     public class NetworkProblemException : Exception
     {
-        public NetworkProblemException()
+        private const string DefaultMessage = @"Web request was failed due network issues.";
+
+        public bool ConnectionAvailable { get; }
+
+        public NetworkProblemException(bool connectionAvailable)
+            : this(connectionAvailable, null)
         {
         }
 
-        public NetworkProblemException(string message) : base(message)
+        public NetworkProblemException(bool connectionAvailable, Exception innerException)
+            : base(DefaultMessage, innerException)
         {
-        }
-
-        public NetworkProblemException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected NetworkProblemException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
+            ConnectionAvailable = connectionAvailable;
         }
     }
 }
