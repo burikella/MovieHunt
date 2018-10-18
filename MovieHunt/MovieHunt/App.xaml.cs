@@ -74,11 +74,11 @@ namespace MovieHunt
         {
             return new AppSettings
             {
-                ApiKey = (string)Current.Resources["ApiKey"],
-                BaseUri = (string)Current.Resources["BaseUri"],
+                ApiKey = (string) Current.Resources["ApiKey"],
+                BaseUri = (string) Current.Resources["BaseUri"],
 
-                ApiRetryCount = (int)Current.Resources["RetryCount"],
-                ApiRetryDelay = TimeSpan.FromMilliseconds((int)Current.Resources["RetryDelayMilliseconds"])
+                ApiRetryCount = (int) Current.Resources["RetryCount"],
+                ApiRetryDelay = TimeSpan.FromMilliseconds((int) Current.Resources["RetryDelayMilliseconds"])
             };
         }
     }

@@ -4,6 +4,7 @@
              xmlns:controls="clr-namespace:MovieHunt.UserInterface.Controls"
              xmlns:ext="clr-namespace:MovieHunt.UserInterface.MarkupExtensions"
              x:Class="MovieHunt.UserInterface.Views.UpcomingMoviesPage"
+             BackgroundColor="White"
              Title="Upcoming Movies">
 
     <controls:InfiniteListView
