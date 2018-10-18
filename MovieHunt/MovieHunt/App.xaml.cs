@@ -10,7 +10,6 @@ using MovieHunt.UserInterface.Views;
 using Prism;
 using Prism.Ioc;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 using Prism.DryIoc;
 
 namespace MovieHunt

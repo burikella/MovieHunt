@@ -61,6 +61,15 @@ namespace MovieHunt.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There some issues with your network. Please check your connection, and try again..
+        /// </summary>
+        public static string ErrorMessage_NetworkProblems {
+            get {
+                return ResourceManager.GetString("ErrorMessage_NetworkProblems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Something went wrong. Please try again later...
         /// </summary>
         public static string ErrorMessage_SomethingWentWrong {

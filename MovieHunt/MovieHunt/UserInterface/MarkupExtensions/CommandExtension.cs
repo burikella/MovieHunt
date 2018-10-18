@@ -50,10 +50,12 @@ namespace MovieHunt.UserInterface.MarkupExtensions
         {
             _isExecuting = true;
             _command.RaiseCanExecuteChanged();
+            var target = Target ?? _targetObject.BindingContext;
+
             try
             {
                 await _methodInvoker.InvokeOnObject(
-                    Target ?? _targetObject.BindingContext,
+                    target,
                     t => GetParameters(t, argument));
             }
             finally

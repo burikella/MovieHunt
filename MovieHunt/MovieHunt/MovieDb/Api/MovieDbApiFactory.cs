@@ -3,6 +3,7 @@ using System.Net.Http;
 using ModernHttpClient;
 using MovieHunt.ApplicationSettings;
 using MovieHunt.MovieDb.Api.Contracts;
+using MovieHunt.MovieDb.Api.HttpHandlers;
 using Refit;
 
 namespace MovieHunt.MovieDb.Api
@@ -20,6 +21,7 @@ namespace MovieHunt.MovieDb.Api
         {
             HttpMessageHandler handler = new NativeMessageHandler();
             handler = new MovieDbAuthHttpClientHandler(_apiSettings.ApiKey, handler);
+            handler = new NetworkProblemHttpClientHandler(handler);
 
             var client = new HttpClient(handler)
             {

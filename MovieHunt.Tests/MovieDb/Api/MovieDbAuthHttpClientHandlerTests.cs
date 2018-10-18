@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MovieHunt.MovieDb.Api;
+using MovieHunt.MovieDb.Api.HttpHandlers;
 using NUnit.Framework;
 
 namespace MovieHunt.Tests.MovieDb.Api

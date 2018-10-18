@@ -36,14 +36,14 @@ namespace MovieHunt.UserInterface.ViewModels
 
         public override async void OnNavigatingTo(NavigationParameters parameters)
         {
-            await Refresh();
+            await this.RunWithExceptionHandling(Refresh());
         }
 
         public async Task Refresh()
         {
             using (_operationsCounter.Run())
             {
-                await _movies.Reset();
+                await this.RunWithExceptionHandling(_movies.Reset());
             }
         }
 
@@ -60,7 +60,7 @@ namespace MovieHunt.UserInterface.ViewModels
         {
             if (!_movies.IsCompletelyLoaded)
             {
-                return _movies.LoadNextPage();
+                return this.RunWithExceptionHandling(_movies.LoadNextPage());
             }
 
             return Task.CompletedTask;

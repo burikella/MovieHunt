@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace MovieHunt.MovieDb.Api
+namespace MovieHunt.MovieDb.Api.HttpHandlers
 {
     internal class MovieDbAuthHttpClientHandler : DelegatingHandler
     {
@@ -18,11 +18,11 @@ namespace MovieHunt.MovieDb.Api
             _apiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
         }
 
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             request.RequestUri = AddQueryParameterIfNotSet(request.RequestUri, ApiKeyParameter, _apiKey);
 
-            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            return base.SendAsync(request, cancellationToken);
         }
 
         private static Uri AddQueryParameterIfNotSet(Uri uri, string name, string value)

@@ -1,8 +1,7 @@
 ﻿using MovieHunt.MovieDb.Api.Contracts;
 using MovieHunt.MovieDb.Models;
-using MovieHunt.UserInterface.ViewModels;
 
-namespace MovieHunt.MovieDb
+namespace MovieHunt.MovieDb.Mapping
 {
     internal interface IMovieDtoToMovieInfoMapper
     {

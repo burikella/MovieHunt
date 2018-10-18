@@ -1,10 +1,14 @@
-﻿using Prism.Mvvm;
+﻿using System;
+using System.Threading.Tasks;
+using MovieHunt.MovieDb.Api;
+using MovieHunt.Resources;
+using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 
-namespace MovieHunt.MovieDb
+namespace MovieHunt.UserInterface.ViewModels
 {
-    public class ViewModel : BindableBase, INavigationAware, IDestructible
+    public class ViewModel : BindableBase, INavigationAware, IExceptionHandler
     {
         protected INavigationService NavigationService { get; }
         protected IPageDialogService PagePageDialogService { get; }
@@ -30,9 +34,18 @@ namespace MovieHunt.MovieDb
 
         }
 
-        public virtual void Destroy()
+        public async Task<bool> TryHandleException(Exception exception)
         {
+            string message = exception is NetworkProblemException
+                ? Strings.ErrorMessage_NetworkProblems
+                : Strings.ErrorMessage_SomethingWentWrong;
 
+            await PagePageDialogService.DisplayAlertAsync(
+                Strings.ErrorMessage_Title,
+                message,
+                Strings.Message_OkButton);
+
+            return true;
         }
     }
 }

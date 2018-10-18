@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using MovieHunt.ApplicationSettings;
 using MovieHunt.MovieDb.Api.Contracts;
@@ -44,8 +42,7 @@ namespace MovieHunt.MovieDb.Api
         private Task<T> ExecuteWithRetry<T>(Func<Task<T>> func)
         {
             return Policy
-                .Handle<WebException>()
-                .Or<HttpRequestException>()
+                .Handle<NetworkProblemException>()
                 .WaitAndRetryAsync(_retryCount, _ => _delay)
                 .ExecuteAsync(func);
         }
