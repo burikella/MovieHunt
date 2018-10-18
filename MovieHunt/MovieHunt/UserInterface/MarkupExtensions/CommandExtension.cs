@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MovieHunt.Utility;
 using Xamarin.Forms;
@@ -29,12 +30,12 @@ namespace MovieHunt.UserInterface.MarkupExtensions
         {
             if (string.IsNullOrWhiteSpace(MethodName))
             {
-                throw new ArgumentException("Name should contain valid method name.", nameof(MethodName));
+                throw new ArgumentException(@"Name should contain valid method name.", nameof(MethodName));
             }
 
             if (serviceProvider == null)
             {
-                throw new ArgumentException("IServiceProvider is required for ActionCommand markup extension.", nameof(serviceProvider));
+                throw new ArgumentException(@"IServiceProvider is required for ActionCommand markup extension.", nameof(serviceProvider));
             }
 
             ExtractTarget(serviceProvider);
@@ -51,13 +52,35 @@ namespace MovieHunt.UserInterface.MarkupExtensions
             _command.RaiseCanExecuteChanged();
             try
             {
-                await _methodInvoker.InvokeOnObject(Target ?? _targetObject.BindingContext, argument);
+                await _methodInvoker.InvokeOnObject(
+                    Target ?? _targetObject.BindingContext,
+                    t => GetParameters(t, argument));
             }
             finally
             {
                 _isExecuting = false;
                 _command.RaiseCanExecuteChanged();
             }
+        }
+
+        private object[] GetParameters(ICollection<Type> types, object argument)
+        {
+            if (types.Count > 1)
+            {
+                throw new NotSupportedException(
+                    @"CommandExtension: Can't call method with more that one parameter.");
+            }
+
+            if (types.Count == 0 && argument != null)
+            {
+                throw new InvalidOperationException(
+                    $"CommandException: Can't pass argument of type {argument.GetType().Name} " +
+                    $"to method {_methodInvoker.MethodName} since it doesn't take any arguments.");
+            }
+
+            return types.Count == 0 
+                ? Array.Empty<object>() 
+                : new[] { argument };
         }
 
         private bool CanExecute()

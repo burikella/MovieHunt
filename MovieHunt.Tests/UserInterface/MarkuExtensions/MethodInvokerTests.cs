@@ -17,7 +17,7 @@ namespace MovieHunt.Tests.UserInterface.MarkuExtensions
             var sut = new MethodInvoker(nameof(SomeClass.ArgumentLessMethod));
 
             // Act & Assert
-            Assert.ThrowsAsync<ArgumentNullException>(() => sut.InvokeOnObject(null));
+            Assert.ThrowsAsync<ArgumentNullException>(() => sut.InvokeOnObject(null, _ => Array.Empty<object>()));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace MovieHunt.Tests.UserInterface.MarkuExtensions
             var sut = new MethodInvoker("SurelyNotFoundMethod");
 
             // Act & Assert
-            Assert.ThrowsAsync<ArgumentException>(() => sut.InvokeOnObject(target));
+            Assert.ThrowsAsync<ArgumentException>(() => sut.InvokeOnObject(target, _ => Array.Empty<object>()));
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace MovieHunt.Tests.UserInterface.MarkuExtensions
             var sut = new MethodInvoker(nameof(SomeClass.ArgumentLessMethod));
 
             // Act
-            await sut.InvokeOnObject(target);
+            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
 
             // Assert
             target.Received().ArgumentLessMethod();
@@ -53,8 +53,8 @@ namespace MovieHunt.Tests.UserInterface.MarkuExtensions
             var sut = new MethodInvoker(nameof(SomeClass.ArgumentLessMethod), TimeSpan.FromMilliseconds(200));
 
             // Act
-            await sut.InvokeOnObject(target);
-            await sut.InvokeOnObject(target);
+            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
+            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
 
             // Assert
             target.Received(1).ArgumentLessMethod();
@@ -68,9 +68,9 @@ namespace MovieHunt.Tests.UserInterface.MarkuExtensions
             var sut = new MethodInvoker(nameof(SomeClass.ArgumentLessMethod), TimeSpan.FromMilliseconds(200));
 
             // Act
-            await sut.InvokeOnObject(target);
+            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
             await Task.Delay(TimeSpan.FromMilliseconds(300));
-            await sut.InvokeOnObject(target);
+            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
 
             // Assert
             target.Received(2).ArgumentLessMethod();
@@ -84,7 +84,7 @@ namespace MovieHunt.Tests.UserInterface.MarkuExtensions
             var sut = new MethodInvoker(nameof(SomeClass.ArgumentLessMethodAsync));
 
             // Act
-            await sut.InvokeOnObject(target);
+            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
 
             // Assert
             await target.Received().ArgumentLessMethodAsync();
@@ -98,7 +98,7 @@ namespace MovieHunt.Tests.UserInterface.MarkuExtensions
             var sut = new MethodInvoker(nameof(SomeClass.MethodInBaseClass));
 
             // Act
-            await sut.InvokeOnObject(target);
+            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
 
             // Assert
             target.MethodInBaseInvoked.Should().BeTrue();
@@ -112,7 +112,7 @@ namespace MovieHunt.Tests.UserInterface.MarkuExtensions
             var sut = new MethodInvoker(nameof(SomeClass.SingleArgumentMethod));
 
             // Act
-            await sut.InvokeOnObject(target, 0);
+            await sut.InvokeOnObject(target, _ => new object[] {0});
 
             // Assert
             target.Received().SingleArgumentMethod(0);

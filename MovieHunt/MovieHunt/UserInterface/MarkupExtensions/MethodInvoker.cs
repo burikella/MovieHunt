@@ -25,11 +25,11 @@ namespace MovieHunt.UserInterface.MarkupExtensions
         {
         }
 
-        public string MethodName { get; set; }
+        public string MethodName { get; }
 
         public TimeSpan MinimumTimeInterval { get; set; }
 
-        public async Task InvokeOnObject(object target, params object[] arguments)
+        public async Task InvokeOnObject(object target, Func<IList<Type>, object[]> argumentsProvider)
         {
             var now = DateTime.Now;
             if (now - _lastCallTime < MinimumTimeInterval)
@@ -41,7 +41,15 @@ namespace MovieHunt.UserInterface.MarkupExtensions
 
             ActualizeMethodInfo(target);
 
-            await InvokeMethod(arguments ?? Enumerable.Empty<object>());
+            var parameterTypes = _actionMethod
+                .MethodInfo
+                .GetParameters()
+                .Select(p => p.ParameterType)
+                .ToList();
+
+            var arguments = argumentsProvider?.Invoke(parameterTypes) ?? new object[0];
+
+            await InvokeMethod(arguments);
         }
 
         private void ActualizeMethodInfo(object newContext)
