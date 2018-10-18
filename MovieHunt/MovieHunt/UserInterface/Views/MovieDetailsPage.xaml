@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="MovieHunt.UserInterface.Views.MovieDetailsPage"
+             BackgroundColor="White"
+             Title="{Binding Path=Movie.Title}">
+
+    <ScrollView Orientation="Vertical">
+
+        <StackLayout Orientation="Vertical" Padding="0" Margin="0">
+
+            <Image Source="{Binding Path=Movie.BackdropImage}" />
+
+            <StackLayout Orientation="Vertical" Margin="2" Padding="3">
+
+                <Label FontSize="Micro"
+                       TextColor="Black"
+                       Text="{Binding Path=Movie.ReleaseDate, Converter={StaticResource DateTimeToFormattedStringConverter}, ConverterParameter='D'}" />
+
+                <Label FontSize="Micro"
+                       Text="{Binding Path=Movie.Genres, Converter={StaticResource CollectionToSeparatedStringConverter}}" />
+
+                <Label FontSize="Small"
+                       FontAttributes="Italic"
+                       Text="{Binding Path=Movie.Overview}" />
+
+            </StackLayout>
+
+        </StackLayout>
+
+    </ScrollView>
+
+</ContentPage>
