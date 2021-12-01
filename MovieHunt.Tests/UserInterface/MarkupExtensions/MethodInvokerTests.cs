@@ -5,7 +5,7 @@ using MovieHunt.UserInterface.MarkupExtensions;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace MovieHunt.Tests.UserInterface.MarkuExtensions
+namespace MovieHunt.Tests.UserInterface.MarkupExtensions
 {
     [TestFixture]
     public class MethodInvokerTests

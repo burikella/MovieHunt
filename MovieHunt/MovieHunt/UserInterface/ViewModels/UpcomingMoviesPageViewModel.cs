@@ -34,7 +34,7 @@ namespace MovieHunt.UserInterface.ViewModels
             set => SetProperty(ref _isRefreshing, value);
         }
 
-        public override async void OnNavigatingTo(NavigationParameters parameters)
+        public override async void Initialize(INavigationParameters parameters)
         {
             await this.RunWithExceptionHandling(Refresh());
         }

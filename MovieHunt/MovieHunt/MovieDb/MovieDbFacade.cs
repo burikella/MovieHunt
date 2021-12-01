@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using MovieHunt.MovieDb.Api.Contracts;
 using MovieHunt.MovieDb.Mapping;
 using MovieHunt.MovieDb.Models;
-using MovieHunt.UserInterface.ViewModels;
 using MovieHunt.Utility;
 
 namespace MovieHunt.MovieDb
@@ -21,7 +20,7 @@ namespace MovieHunt.MovieDb
         {
             _api = api ?? throw new ArgumentNullException(nameof(api));
             _mapperFactory = mapperFactory ?? throw new ArgumentNullException(nameof(mapperFactory));
-            _mapper = new AsyncLazy<IMovieDtoToMovieInfoMapper>(() => CreateMapper());
+            _mapper = new AsyncLazy<IMovieDtoToMovieInfoMapper>(CreateMapper);
         }
 
         private async Task<IMovieDtoToMovieInfoMapper> CreateMapper()

@@ -30,7 +30,10 @@ namespace MovieHunt.MovieDb.Api
             {
                 BaseAddress = new Uri(_apiSettings.BaseUri)
             };
-            return RestService.For<IMovieDbApi>(client);
+            return RestService.For<IMovieDbApi>(client, new RefitSettings
+            {
+                ContentSerializer = new NewtonsoftJsonContentSerializer()
+            });
         }
     }
 }

@@ -8,7 +8,7 @@ using Prism.Services;
 
 namespace MovieHunt.UserInterface.ViewModels
 {
-    public class ViewModel : BindableBase, INavigationAware, IExceptionHandler
+    public class ViewModel : BindableBase, INavigationAware, IInitialize, IExceptionHandler
     {
         protected INavigationService NavigationService { get; }
         protected IPageDialogService PagePageDialogService { get; }
@@ -19,19 +19,16 @@ namespace MovieHunt.UserInterface.ViewModels
             PagePageDialogService = pageDialogService;
         }
 
-        public virtual void OnNavigatedFrom(NavigationParameters parameters)
+        public virtual void OnNavigatedFrom(INavigationParameters parameters)
         {
-
         }
 
-        public virtual void OnNavigatedTo(NavigationParameters parameters)
+        public virtual void OnNavigatedTo(INavigationParameters parameters)
         {
-
         }
 
-        public virtual void OnNavigatingTo(NavigationParameters parameters)
+        public virtual void Initialize(INavigationParameters parameters)
         {
-
         }
 
         public async Task<bool> TryHandleException(Exception exception)

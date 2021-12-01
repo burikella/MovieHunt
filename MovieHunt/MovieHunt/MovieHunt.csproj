@@ -6,12 +6,14 @@
 
   <ItemGroup>
     <PackageReference Include="modernhttpclient" Version="2.4.2" />
-    <PackageReference Include="Polly" Version="6.1.0" />
-    <PackageReference Include="Refit" Version="4.6.48" />
-    <PackageReference Include="System.Reactive" Version="4.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Polly" Version="7.2.2" />
+    <PackageReference Include="Refit" Version="6.1.15" />
+    <PackageReference Include="Refit.Newtonsoft.Json" Version="6.1.15" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
-    <PackageReference Include="Xamarin.Forms" Version="2.5.0.122203" />
-    <PackageReference Include="Prism.DryIoc.Forms" Version="7.0.0.396" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2244" />
+    <PackageReference Include="Prism.DryIoc.Forms" Version="8.1.97" />
   </ItemGroup>
 
   <ItemGroup>

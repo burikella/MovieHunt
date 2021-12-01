@@ -1,5 +1,4 @@
-﻿using MovieHunt.MovieDb;
-using MovieHunt.MovieDb.Models;
+﻿using MovieHunt.MovieDb.Models;
 using MovieHunt.UserInterface.Views;
 using Prism.Navigation;
 using Prism.Services;
@@ -17,9 +16,9 @@ namespace MovieHunt.UserInterface.ViewModels
         {
         }
 
-        public override void OnNavigatingTo(NavigationParameters parameters)
+        public override void Initialize(INavigationParameters parameters)
         {
-            base.OnNavigatingTo(parameters);
+            base.Initialize(parameters);
             if (parameters.TryGetValue(MovieDetailsPage.MovieInfoKey, out MovieInfo info))
             {
                 Movie = info;
