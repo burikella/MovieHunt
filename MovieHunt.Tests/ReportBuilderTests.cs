@@ -6,25 +6,18 @@ namespace MovieHunt.Tests
     [TestFixture]
     public class ReportBuilderTests
     {
-        private ReportBuilder _sut;
-
-        [SetUp]
-        public void Setup()
-        {
-            _sut = new ReportBuilder();
-        }
-
         [Test]
         public void AddAmount_NonZero_AddsRecord()
         {
             // Arrange
+            var builder = new ReportBuilder(false);
             decimal amount = 1m;
 
             // Act
-            _sut.AddAmountIfNeeded(amount);
+            builder.AddAmountIfNeeded(amount);
 
             // Assert
-            _sut.Amounts.Should().HaveCount(1);
+            builder.Amounts.Should().HaveCount(1);
         }
     }
 }
