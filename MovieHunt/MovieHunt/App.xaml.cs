@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DryIoc;
 using MovieHunt.ApplicationSettings;
 using MovieHunt.MovieDb;
@@ -8,7 +9,6 @@ using MovieHunt.MovieDb.Mapping;
 using MovieHunt.UserInterface.ViewModels;
 using MovieHunt.UserInterface.Views;
 using Plugin.Connectivity;
-using Plugin.Connectivity.Abstractions;
 using Prism;
 using Prism.Ioc;
 using Xamarin.Forms;
@@ -16,6 +16,32 @@ using Prism.DryIoc;
 
 namespace MovieHunt
 {
+    public class ReportBuilder
+    {
+        private readonly List<string> _amounts = new List<string>();
+
+        public ReportBuilder(bool includeZeroes)
+        {
+            IncludeZeroes = includeZeroes;
+        }
+        
+        public bool IncludeZeroes { get; }
+
+        public IReadOnlyList<string> Amounts => _amounts.AsReadOnly();
+
+        public void AddAmountIfNeeded(decimal amount)
+        {
+            if (amount > 0 || (amount == 0 && IncludeZeroes))
+            {
+                _amounts.Add(amount.ToString("0.00"));
+            }
+            else if (amount < 0)
+            {
+                _amounts.Add($"({-amount:0.00})");
+            }
+        }
+    }
+
     public partial class App : PrismApplication
     {
         private Lazy<AppSettings> _settings;
