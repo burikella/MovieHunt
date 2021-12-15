@@ -1,17 +1,16 @@
 using System;
 using System.Linq;
-using FluentAssertions;
-using NUnit.Framework;
 using MovieHunt.Utility;
+using Xunit;
 
-namespace MovieHunt.Tests.Utility
+namespace MovieHunt.Tests.xUnit.Utility
 {
-    [TestFixture]
     public class OperationCounterTests
     {
-        [TestCase(1)]
-        [TestCase(3)]
-        [TestCase(23)]
+        [Theory]
+        [InlineData(1)]
+        [InlineData(3)]
+        [InlineData(23)]
         public void RunSeveralTimes_BecameFalseOnlyWhenAllDisposed(int count)
         {
             // Arrange
@@ -24,13 +23,13 @@ namespace MovieHunt.Tests.Utility
             // Assert
             foreach (var disposable in disposables)
             {
-                state.Should().BeTrue();
+                Assert.True(state);
                 disposable.Dispose();
             }
-            state.Should().BeFalse();
+            Assert.False(state);
         }
 
-        [Test]
+        [Fact]
         public void RunRelated_DependentShouldBeTrue()
         {
             // Arrange
@@ -43,10 +42,10 @@ namespace MovieHunt.Tests.Utility
             related.Run();
 
             // Assert
-            state.Should().BeTrue();
+            Assert.True(state);
         }
 
-        [Test]
+        [Fact]
         public void ChangeStateFailed_ContinueUpdatingState()
         {
             // Arrange
@@ -68,7 +67,7 @@ namespace MovieHunt.Tests.Utility
             sut.Run().Dispose();
 
             // Assert
-            counter.Should().Be(4);
+            Assert.Equal(4, counter);
         }
     }
 }

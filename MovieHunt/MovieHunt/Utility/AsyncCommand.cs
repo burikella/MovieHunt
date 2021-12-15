@@ -9,16 +9,16 @@ namespace MovieHunt.Utility
         private readonly Func<Task> _asyncMethod;
         private readonly Func<object, Task> _asyncMethodWithParameter;
         
-        public AsyncCommand(Func<Task> executeAsynMethod, Func<bool> canExecuteMethod)
+        public AsyncCommand(Func<Task> executeAsyncMethod, Func<bool> canExecuteMethod)
             : base(() => { }, canExecuteMethod)
         {
-            _asyncMethod = executeAsynMethod;
+            _asyncMethod = executeAsyncMethod;
         }
 
-        public AsyncCommand(Func<object, Task> executeAsynMethod, Func<bool> canExecuteMethod)
+        public AsyncCommand(Func<object, Task> executeAsyncMethod, Func<bool> canExecuteMethod)
             : base(() => { }, canExecuteMethod)
         {
-            _asyncMethodWithParameter = executeAsynMethod;
+            _asyncMethodWithParameter = executeAsyncMethod;
         }
 
         protected override async void Execute(object parameter)

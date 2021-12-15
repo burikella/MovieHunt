@@ -9,7 +9,7 @@
 		<!-- Application resource dictionary -->
         <ResourceDictionary>
 
-            <x:String x:Key="ApiKey">API_KEY_SHOULD_BE_HERE</x:String>
+            <x:String x:Key="ApiKey">014d89bc7c61acf1a7a9c5fb1128d202</x:String>
             <x:String x:Key="BaseUri">https://api.themoviedb.org/3</x:String>
             <x:Int32 x:Key="RetryCount">3</x:Int32>
             <x:Int32 x:Key="RetryDelayMilliseconds">250</x:Int32>

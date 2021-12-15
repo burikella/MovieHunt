@@ -3,21 +3,19 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentAssertions;
 using MovieHunt.MovieDb.Api.HttpHandlers;
-using NUnit.Framework;
+using Xunit;
 
-namespace MovieHunt.Tests.MovieDb.Api
+namespace MovieHunt.Tests.xUnit.MovieDb.Api
 {
     public class MovieDbAuthHttpClientHandlerTests
     {
-        private string _apiKey;
-        private HttpMessageHandler _inner;
-        private MovieDbAuthHttpClientHandler _sut;
-        private HttpClient _client;
+        private readonly string _apiKey;
+        private readonly HttpMessageHandler _inner;
+        private readonly MovieDbAuthHttpClientHandler _sut;
+        private readonly HttpClient _client;
 
-        [SetUp]
-        public void SetUp()
+        public MovieDbAuthHttpClientHandlerTests()
         {
             _apiKey = "SomeKey";
             _inner = new DoNothingHandler();
@@ -25,17 +23,18 @@ namespace MovieHunt.Tests.MovieDb.Api
             _client = new HttpClient(_sut);
         }
 
-        [Test]
+        [Fact]
         public void Create_NullApiKey_ArgumentNullExceptionThrown()
         {
             Assert.Throws<ArgumentNullException>(() => new MovieDbAuthHttpClientHandler(null, _inner));
         }
-        
-        [TestCase("http://domain.com/", "http://domain.com/?api_key=SomeKey")]
-        [TestCase("http://domain.com/#anchor", "http://domain.com/?api_key=SomeKey#anchor")]
-        [TestCase("http://domain.com/path/foo?p=1&x=4", "http://domain.com/path/foo?p=1&x=4&api_key=SomeKey")]
-        [TestCase("http://domain.com/?p=1&x=4#abc", "http://domain.com/?p=1&x=4&api_key=SomeKey#abc")]
-        [TestCase("http://domain.com/?api_key=#abc", "http://domain.com/?api_key=SomeKey#abc")]
+
+        [Theory]
+        [InlineData("http://domain.com/", "http://domain.com/?api_key=SomeKey")]
+        [InlineData("http://domain.com/#anchor", "http://domain.com/?api_key=SomeKey#anchor")]
+        [InlineData("http://domain.com/path/foo?p=1&x=4", "http://domain.com/path/foo?p=1&x=4&api_key=SomeKey")]
+        [InlineData("http://domain.com/?p=1&x=4#abc", "http://domain.com/?p=1&x=4&api_key=SomeKey#abc")]
+        [InlineData("http://domain.com/?api_key=#abc", "http://domain.com/?api_key=SomeKey#abc")]
         public async Task SendAsync_NoApiKeyInUrl_ApiKeyAdded(string source, string expected)
         {
             // Arrange
@@ -45,12 +44,13 @@ namespace MovieHunt.Tests.MovieDb.Api
             await _client.SendAsync(request);
 
             // Assert
-            request.RequestUri.Should().BeEquivalentTo(new Uri(expected));
+            Assert.Equal(new Uri(expected), request.RequestUri);
         }
 
-        [TestCase("http://domain.com/?api_key=foo")]
-        [TestCase("http://domain.com/?api_key=bar#anchor")]
-        [TestCase("http://domain.com/path?api_key=x#anchor")]
+        [Theory]
+        [InlineData("http://domain.com/?api_key=foo")]
+        [InlineData("http://domain.com/?api_key=bar#anchor")]
+        [InlineData("http://domain.com/path?api_key=x#anchor")]
         public async Task SendAsync_ApiKeyAlreadyInUrl_ShouldNotChangeUri(string source)
         {
             // Arrange
@@ -60,7 +60,7 @@ namespace MovieHunt.Tests.MovieDb.Api
             await _client.SendAsync(request);
 
             // Assert
-            request.RequestUri.Should().BeEquivalentTo(new Uri(source));
+            Assert.Equal(new Uri(source), request.RequestUri);
         }
 
         private class DoNothingHandler : HttpMessageHandler

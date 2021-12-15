@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentAssertions;
+using Moq;
 using MovieHunt.UserInterface.MarkupExtensions;
-using NSubstitute;
-using NUnit.Framework;
+using Xunit;
 
-namespace MovieHunt.Tests.UserInterface.MarkupExtensions
+namespace MovieHunt.Tests.xUnit.UserInterface.MarkupExtensions
 {
-    [TestFixture]
     public class MethodInvokerTests
     {
-        [Test]
+        [Fact]
         public void InvokeOnObject_TargetIsNull_ArgumentNullExceptionThrown()
         {
             // Arrange
@@ -20,102 +18,102 @@ namespace MovieHunt.Tests.UserInterface.MarkupExtensions
             Assert.ThrowsAsync<ArgumentNullException>(() => sut.InvokeOnObject(null, _ => Array.Empty<object>()));
         }
 
-        [Test]
+        [Fact]
         public void InvokeOnObject_UnknownMethod_ArgumentNullExceptionThrown()
         {
             // Arrange
-            var target = Substitute.For<SomeClass>();
+            var targetMock = new Mock<SomeClass>();
             var sut = new MethodInvoker("SurelyNotFoundMethod");
 
             // Act & Assert
-            Assert.ThrowsAsync<ArgumentException>(() => sut.InvokeOnObject(target, _ => Array.Empty<object>()));
+            Assert.ThrowsAsync<ArgumentException>(() => sut.InvokeOnObject(targetMock.Object, _ => Array.Empty<object>()));
         }
 
-        [Test]
+        [Fact]
         public async Task InvokeOnObject_NoArguments_TargetMethodCalled()
         {
             // Arrange
-            var target = Substitute.For<SomeClass>();
+            var targetMock = new Mock<SomeClass>();
             var sut = new MethodInvoker(nameof(SomeClass.ArgumentLessMethod));
 
             // Act
-            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
+            await sut.InvokeOnObject(targetMock.Object, _ => Array.Empty<object>());
 
             // Assert
-            target.Received().ArgumentLessMethod();
+            targetMock.Verify(t => t.ArgumentLessMethod(), Times.Once);
         }
 
-        [Test]
+        [Fact]
         public async Task InvokeOnObject_FrequencyTooHigh_TargetMethodCallSkipped()
         {
             // Arrange
-            var target = Substitute.For<SomeClass>();
+            var targetMock = new Mock<SomeClass>();
             var sut = new MethodInvoker(nameof(SomeClass.ArgumentLessMethod), TimeSpan.FromMilliseconds(200));
 
             // Act
-            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
-            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
+            await sut.InvokeOnObject(targetMock.Object, _ => Array.Empty<object>());
+            await sut.InvokeOnObject(targetMock.Object, _ => Array.Empty<object>());
 
             // Assert
-            target.Received(1).ArgumentLessMethod();
+            targetMock.Verify(t => t.ArgumentLessMethod(), Times.Once);
         }
 
-        [Test]
+        [Fact]
         public async Task InvokeOnObject_DelayFitsInLimit_TargetMethodCalledAgain()
         {
             // Arrange
-            var target = Substitute.For<SomeClass>();
+            var targetMock = new Mock<SomeClass>();
             var sut = new MethodInvoker(nameof(SomeClass.ArgumentLessMethod), TimeSpan.FromMilliseconds(200));
 
             // Act
-            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
+            await sut.InvokeOnObject(targetMock.Object, _ => Array.Empty<object>());
             await Task.Delay(TimeSpan.FromMilliseconds(300));
-            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
+            await sut.InvokeOnObject(targetMock.Object, _ => Array.Empty<object>());
 
             // Assert
-            target.Received(2).ArgumentLessMethod();
+            targetMock.Verify(t => t.ArgumentLessMethod(), Times.Exactly(2));
         }
 
-        [Test]
+        [Fact]
         public async Task InvokeOnObject_NoArgumentsAsync_TargetMethodCalled()
         {
             // Arrange
-            var target = Substitute.For<SomeClass>();
+            var targetMock = new Mock<SomeClass>();
             var sut = new MethodInvoker(nameof(SomeClass.ArgumentLessMethodAsync));
 
             // Act
-            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
+            await sut.InvokeOnObject(targetMock.Object, _ => Array.Empty<object>());
 
             // Assert
-            await target.Received().ArgumentLessMethodAsync();
+            targetMock.Verify(t => t.ArgumentLessMethodAsync(), Times.Once);
         }
 
-        [Test]
+        [Fact]
         public async Task InvokeOnObject_MethodDefinedInBaseClass_TargetMethodCalled()
         {
             // Arrange
-            var target = Substitute.For<SomeClass>();
+            var targetMock = new Mock<SomeClass>();
             var sut = new MethodInvoker(nameof(SomeClass.MethodInBaseClass));
 
             // Act
-            await sut.InvokeOnObject(target, _ => Array.Empty<object>());
+            await sut.InvokeOnObject(targetMock.Object, _ => Array.Empty<object>());
 
             // Assert
-            target.MethodInBaseInvoked.Should().BeTrue();
+            Assert.True(targetMock.Object.MethodInBaseInvoked);
         }
 
-        [Test]
+        [Fact]
         public async Task InvokeOnObject_SingleArgument_TargetMethodCalled()
         {
             // Arrange
-            var target = Substitute.For<SomeClass>();
+            var targetMock = new Mock<SomeClass>();
             var sut = new MethodInvoker(nameof(SomeClass.SingleArgumentMethod));
 
             // Act
-            await sut.InvokeOnObject(target, _ => new object[] {0});
+            await sut.InvokeOnObject(targetMock.Object, _ => new object[] {0});
 
             // Assert
-            target.Received().SingleArgumentMethod(0);
+            targetMock.Verify(t => t.SingleArgumentMethod(0), Times.Once);
         }
 
         public abstract class SomeClass
