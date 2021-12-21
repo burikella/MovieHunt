@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:MovieHunt.UserInterface.Controls"
+             xmlns:ext="clr-namespace:MovieHunt.UserInterface.MarkupExtensions"
+             x:Class="MovieHunt.UserInterface.Views.UpcomingMoviesPage"
+             BackgroundColor="White"
+             Title="Upcoming Movies">
+
+    <controls:InfiniteListView
+        ItemsSource="{Binding Movies}"
+        IsPullToRefreshEnabled="True"
+        RefreshCommand="{ext:Command Refresh}"
+        IsRefreshing="{Binding IsRefreshing}"
+        LoadMoreCommand="{ext:Command LoadMore}"
+        ItemSelectedCommand="{ext:Command OpenDetails}"
+        RowHeight="80">
+
+        <controls:InfiniteListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Image Grid.RowSpan="3"
+                               Aspect="AspectFill"
+                               WidthRequest="50"
+                               Source="{Binding PreviewImage}" />
+
+                        <Label Grid.Column="1"
+                               Grid.Row="0"
+                               FontSize="Micro"
+                               TextColor="Black"
+                               Text="{Binding ReleaseDate, Converter={StaticResource DateTimeToFormattedStringConverter}, ConverterParameter='D'}"/>
+                        
+                        <Label Grid.Column="1"
+                               Grid.Row="1"
+                               FontSize="Small"
+                               TextColor="Black"
+                               Text="{Binding Title}"/>
+
+                        <Label Grid.Column="1"
+                               Grid.Row="2"
+                               FontSize="Micro"
+                               Text="{Binding Genres, Converter={StaticResource CollectionToSeparatedStringConverter}}"/>
+                        
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </controls:InfiniteListView.ItemTemplate>
+
+    </controls:InfiniteListView>
+
+</ContentPage>
